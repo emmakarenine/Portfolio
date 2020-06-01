@@ -1,0 +1,769 @@
+ ____ ____ ____        ____            _      _     ____  
+| __ ) ___|___ \   _  |  _ \ _ __ ___ (_) ___| |_  |___ \ 
+|  _ \___ \ __) | (_) | |_) | '__/ _ \| |/ _ \ __|   __) |
+| |_) |__) / __/   _  |  __/| | | (_) | |  __/ |_   / __/ 
+|____/____/_____| (_) |_|   |_|  \___// |\___|\__| |_____|
+                                    |__/                  
+
+
+  ___  _     _           _   _  __ 
+ / _ \| |__ (_) ___  ___| |_(_)/ _|
+| | | | '_ \| |/ _ \/ __| __| | |_ 
+| |_| | |_) | |  __/ (__| |_| |  _|
+ \___/|_.__// |\___|\___|\__|_|_|  
+          |__/                     
+
+Ce projet consiste à produire une analyse statistiques à partir d'une série de données.
+
+
+   ___  _     _           _   _  __                   __      _  __ _                       
+  / _ \| |__ (_) ___  ___| |_(_)/ _|___   ___ _ __   /_/  ___(_)/ _(_) __ _ _   _  ___  ___ 
+ | | | | '_ \| |/ _ \/ __| __| | |_/ __| / __| '_ \ / _ \/ __| | |_| |/ _` | | | |/ _ \/ __|
+ | |_| | |_) | |  __/ (__| |_| |  _\__ \ \__ \ |_) |  __/ (__| |  _| | (_| | |_| |  __/\__ \
+  \___/|_.__// |\___|\___|\__|_|_| |___/ |___/ .__/ \___|\___|_|_| |_|\__, |\__,_|\___||___/
+           |__/                              |_|                         |_|                
+
+Ce projet vise la réalisation d'une solution permettant de mettre en oeuvre 
+ces concepts :
+	- héritage
+	- polymorphisme
+	- calculs statistiques simples
+	- analyse de performance
+	- C++
+
+  __  __                 _       _   
+ |  \/  | __ _ _ __   __| | __ _| |_ 
+ | |\/| |/ _` | '_ \ / _` |/ _` | __|
+ | |  | | (_| | | | | (_| | (_| | |_ 
+ |_|  |_|\__,_|_| |_|\__,_|\__,_|\__|
+                                     
+Vous devez réaliser l'analyse d'un vecteur de données et produire une petite 
+analyse statistique en donnant quelques métriques.
+
+Les métriques à produire sont :
+	- le minimum
+	- le maximum
+	- l'étendu
+	- la médiane
+	- le mode
+	- le nombre
+	- la somme
+	- la moyenne
+	- la variance
+	- l'écart type
+
+Vous avez à votre disposition un tableau de nombres réels. Les valeurs 
+sont initialisé dans un interval de l'ordre [-1000, 1000] et vous pouvez 
+exploiter cette information (cette ordre de grandeur) en sachant que vous 
+ne connaissez pas exactement les bornes de l'interval.
+
+Plus spéciquement, vous avez deux implémentations à réaliser :
+	1. implémentation simple visant à produire les bons résultats sans 
+	   considérations pour l'efficacité de vos algorithmes
+	2. implémentation plus sophistiquée visant à déterminer les valeurs 
+	   recherchées en considérant l'efficacité de vos algorithmes
+
+Vous avez à votre disposition une petite librairie vous permettant de faire 
+tous les tests nécessaires à l'évaluation.
+
+Ce travail doit être réalisé seul. Vous avez 1 semaine pour la remise.
+
+
+ _     _ _               _      _            _       _                   
+| |   (_) |__  _ __ __ _(_)_ __(_) ___    __| | __ _| |_ _   _ _ __ ___  
+| |   | | '_ \| '__/ _` | | '__| |/ _ \  / _` |/ _` | __| | | | '_ ` _ \ 
+| |___| | |_) | | | (_| | | |  | |  __/ | (_| | (_| | |_| |_| | | | | | |
+|_____|_|_.__/|_|  \__,_|_|_|  |_|\___|  \__,_|\__,_|\__|\__,_|_| |_| |_|
+                                                                         
+Vous devez utiliser la librairie qui est mise à votre disposition : datum.
+
+Procédure pour l'installation : 
+	1. créez-vous un projet vide
+	2. ajoutez le fichier principal où se trouvera le 'main' et faites une 
+	   fonction 'main' minimum
+	3. copier le dossier 'dev' fourni dans le dossier de votre solution 
+	   (pas votre projet)
+	4. dans les propriétés de votre projet, déterminer ces paramètres :
+		a)	- Configuration : All Configurations
+			- Platform : All Platforms
+				- C\C++ - General - Additional include directory : ..\dev\header\
+					 attention, les deux points (..) sont nécessaires
+				- Preprocessor - Preprocessor Definition : ajouter NDEBUG
+				- Language - C++ Language Support : ISO C++ Latest Draft Standard
+		b)	- Configuration : Debug
+			- Platform : All Platforms 
+				- Linker - General - Additional Library Directory : ..\dev\lib\debug\
+				- Linker - Input - Additional Dependencies : ajouter datum.lib
+		c)	- Configuration : Release
+			- Platform : All Platforms 
+				- Linker - General - Additional Library Directory : ..\dev\lib\release\
+				- Linker - Input - Additional Dependencies : ajouter datum.lib
+	5. ajouter ce code dans le 'main' pour valider l'installation - si le projet 
+	   compile et s'exécute, l'installation est ok et la librairie datum est 
+	   disponible
+
+
+	   #include <datum.h>
+	   #include <b52_project2_evaluator.h>
+
+	   int main()
+	   {
+			real r1, r2(2.0), r3(-5.0);
+			r1 = r2 * r3;
+
+			b52_project2_evaluator eval;
+
+			return 0;
+	   }
+
+La libraire datum possède une infrastructure facilitant le travail à réaliser. 
+En fait, il ne vous reste qu'à faire les algorithmes de calcul statistiques et 
+tous le reste est déjà fonctionnel.
+
+Voici les classes importantes avec lesquelles vous devez travailler :
+	- b52_project2_evaluator		l'engin de test
+	- real							une donnée en point flottant
+	- integer						une donnée entière
+	- data							les données à analyser
+	- statistical_metrics			la classe qui accueillera vos résultats
+	- data_statistics				la classe dont il faut hériter pour 
+									implémenter votre solution
+
+Aussi, ces classes peuvent être utiles :
+	- evaluation					vous permet de créer votre propre test
+
+Malheureusement, la librairie datum n'est pas uniformément documentée. 
+Toutefois, les classes mentionnées plus haut sont suffisamment documentée 
+pour réaliser ce travail.
+
+Vous trouverez à même ces classes les informations nécessaires pour réaliser 
+le projet.
+
+Sachez que plusieurs autres classes existent et que vous n'y avez pas accès. 
+Aussi, le fichier 'data_statistics_impl_level1.h' présente un exemple de 
+déclaration de classe à réaliser.
+
+
+ ____                         _                            __                         _       _          
+|  _ \  ___ _   ___  __   ___| | __ _ ___ ___  ___  ___    \_\_   _ __  _ __ ___   __| |_   _(_)_ __ ___ 
+| | | |/ _ \ | | \ \/ /  / __| |/ _` / __/ __|/ _ \/ __|  / _` | | '_ \| '__/ _ \ / _` | | | | | '__/ _ \
+| |_| |  __/ |_| |>  <  | (__| | (_| \__ \__ \  __/\__ \ | (_| | | |_) | | | (_) | (_| | |_| | | | |  __/
+|____/ \___|\__,_/_/\_\  \___|_|\__,_|___/___/\___||___/  \__,_| | .__/|_|  \___/ \__,_|\__,_|_|_|  \___|
+                                                                 |_|                                     
+
+On vous demande de produire 2 classes nommées 'processeur' :
+	1) La première classe doit offrir une solution simple mais viable :
+		- on vous demande de produire adéquatement les métriques statistiques
+		- aucune considération de performance n'est à faire
+		- il est important de produire les statistiques adéquatement
+		- on vous suggère de débuter par cette classe et de réaliser simplement 
+		  les algorithmes demandés
+		- cette classe vaut pour 40% du projet
+		- l'évaluation de cette partie est uniquement basée sur la justesse 
+		  des données statistiques
+	2) La deuxième classe doit offrir une solution viable mais plus efficace :
+		- on vous demande de produire adéquatement les métriques statistiques
+		- cette implémentation doit considérer la performance de la tâche à 
+		  réaliser
+		- cette partie du projet vaut pour 40% du projet
+		- si les métriques ne sont pas bonnes, vous aurez 0 sans considération 
+		  pour la performance
+		- si les métriques sont bonnes, une analyse de performance est 
+		  réalisée pour attribuer les points
+		- il est possible d'aller chercher des points boni
+
+Voici quelques considérations techniques :
+									classe 1						classe 2
+	-------------------------------------------------------------------------------------
+	- nom des classes				b52p2_NomPrenom_1				b52p2_NomPrenom_2
+	- noms des fichiers				b52p2_NomPrenom_1.h/cpp			b52p2_NomPrenom_2.h/cpp
+	-------------------------------------------------------------------------------------
+	- implementation_description	"une description sommaire de vos approches"
+	- implementation_id				"0"								"1"
+	- author_name					"Nom, Prenom"					"Nom, Prenom"
+	- author_id						"matricule"						"matricule"
+
+Vos classes doivent hériter de la classe 'data_statistics'. Pour vous inspirer, 
+voir le fichier .data_statistics_impl_level1.h'
+
+Voici le code pour tester vos classes :
+┌──┬────────────────────────────────────────────────────────────────────────┐
+│1 │#include <b52_project2_evaluator.h>                                     │
+│2 │#include <ma_classe_version_1.h>                                        │
+│3 │#include <ma_classe_version_2.h>                                        │
+│4 │                                                                        │
+│5 │int main()                                                              │
+│6 │{                                                                       │
+│7 │    b52_project2_evaluator evaluator;                                   │
+│8 │                                                                        │
+│9 │    evaluator.prepare();                                                │
+│10│                                                                        │
+│11│    evaluator.add_processor<ma_classe_version_1, ma_classe_version_2>();│
+│12│                                                                        │
+│13│    evaluator.evaluate();                                               │
+│14│                                                                        │
+│15│    return 0;                                                           │
+│16│}                                                                       │
+└──┴────────────────────────────────────────────────────────────────────────┘
+
+Pour mieux comprendre les opérations et résultat, voici un autre programme qui pourra vous aider.
+┌──┬────────────────────────────────────────────────────────────────────────────────────────────────┐
+│1 │#include <b52_project2_evaluator.h>                                                             │
+│2 │#include <ma_classe_version_1.h>                                                                │
+│3 │#include <ma_classe_version_2.h>                                                                │
+│4 │                                                                                                │
+│5 │int main()                                                                                      │
+│6 │{                                                                                               │
+│7 │    // ------------------------------------------------------                                   │
+│8 │    data d(1000), e;                                                                            │
+│9 │    for (auto & v : d) v.randomize(real(-100.0), real(100.0));                                  │
+│10│    std::sort(d.begin(), d.end());                                                              │
+│11│    std::fill_n(d.begin() + 100, 50, real(3.141592654));                                        │
+│12│                                                                                                │
+│13│    // ------------------------------------------------------                                   │
+│14│    ma_classe_version_1 processor1;                                                             │
+│15│                                                                                                │
+│16│    real::monitoring::measure().reset();                                                        │
+│17│    integer::monitoring::measure().reset();                                                     │
+│18│    processor1.process(d);                                                                      │
+│19│    real::monitoring::metric mr1{real::monitoring::measure()};                                  │
+│20│    integer::monitoring::metric mi1{ integer::monitoring::measure()};                           │
+│21│                                                                                                │
+│22│    std::cout << '\n' << "p1 <><><><><><><><><><><><><><><><><><><><><><>" << '\n';             │
+│23│    std::cout << "implementation id : " << processor1.implementation_id() << '\n';              │
+│24│    std::cout << "author name       : " << processor1.author_name() << '\n';                    │
+│25│    std::cout << "author id         : " << processor1.author_id() << '\n';                      │
+│26│    std::cout << "duration          : " << processor1.elapsed_second() << '\n';                 │
+│27│    std::cout << '\n' << processor1.statistics().summary("p1") << '\n';                         │
+│28│                                                                                                │
+│29│    // ------------------------------------------------------                                   │
+│30│    ma_classe_version_2 processor2;                                                             │
+│31│                                                                                                │
+│32│    real::monitoring::measure().reset();                                                        │
+│33│    integer::monitoring::measure().reset();                                                     │
+│34│    processor2.process(d);                                                                      │
+│35│    real::monitoring::metric mr2{real::monitoring::measure()};                                  │
+│36│    integer::monitoring::metric mi2{ integer::monitoring::measure()};                           │
+│37│                                                                                                │
+│38│    std::cout << '\n' << "p2 <><><><><><><><><><><><><><><><><><><><><><>" << '\n';             │
+│39│    std::cout << "implementation id : " << processor2.implementation_id() << '\n';              │
+│40│    std::cout << "author name       : " << processor2.author_name() << '\n';                    │
+│41│    std::cout << "author id         : " << processor2.author_id() << '\n';                      │
+│42│    std::cout << "duration          : " << processor2.elapsed_second() << '\n';                 │
+│43│    std::cout << '\n' << processor2.statistics().summary("p2") << '\n';                         │
+│44│                                                                                                │
+│45│    // ------------------------------------------------------                                   │
+│46│    std::cout << '\n'                                                                           │
+│47│              << real::monitoring::measure().compared_summary({ mr1, mr2 },                     │
+│48│                                                              { "mr1", "mr2" },                 │
+│49│                                                              "Summary for real") << '\n';      │
+│50│    std::cout << '\n'                                                                           │
+│51│              << integer::monitoring::measure().compared_summary({ mi1, mi2 },                  │
+│52│                                                                 { "mi1", "mi2" },              │
+│53│                                                                 "Summary for integer") << '\n';│
+│54│                                                                                                │
+│55│    return 0;                                                                                   │
+│56│}                                                                                               │
+└──┴────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+    _    _                  _ _   _                               _        _         _ _ _               _      _            _                  _               _ 
+   / \  | | __ _  ___  _ __(_) |_| |__  _ __ ___   ___  ___    __| | ___  | | __ _  | (_) |__  _ __ __ _(_)_ __(_) ___   ___| |_ __ _ _ __   __| | __ _ _ __ __| |
+  / _ \ | |/ _` |/ _ \| '__| | __| '_ \| '_ ` _ \ / _ \/ __|  / _` |/ _ \ | |/ _` | | | | '_ \| '__/ _` | | '__| |/ _ \ / __| __/ _` | '_ \ / _` |/ _` | '__/ _` |
+ / ___ \| | (_| | (_) | |  | | |_| | | | | | | | |  __/\__ \ | (_| |  __/ | | (_| | | | | |_) | | | (_| | | |  | |  __/ \__ \ || (_| | | | | (_| | (_| | | | (_| |
+/_/   \_\_|\__, |\___/|_|  |_|\__|_| |_|_| |_| |_|\___||___/  \__,_|\___| |_|\__,_| |_|_|_.__/|_|  \__,_|_|_|  |_|\___| |___/\__\__,_|_| |_|\__,_|\__,_|_|  \__,_|
+           |___/                                                                                                                                                  
+
+Vous devez réaliser vos propres algorithmes. Vous ne pouvez pas utiliser de 
+librairies faisant le travail à votre place. Ainsi, seulement les algorithmes 
+suivants sont autorisés :
+	- std::for_each
+	- std::fill
+	- std::generate
+
+
+    __             _             _   _             
+  _/_/___   ____ _| |_   _  __ _| |_(_) ___  _ __  
+ | ____\ \ / / _` | | | | |/ _` | __| |/ _ \| '_ \ 
+ |  _|_ \ V / (_| | | |_| | (_| | |_| | (_) | | | |
+ |_____| \_/ \__,_|_|\__,_|\__,_|\__|_|\___/|_| |_|
+                           
+D'abord, vous devez savoir que les tests sont effectués ainsi :
+	- trois processeurs (réalisés par l'enseignant) sont déjà inclus dans
+	  l'engin de tests et ils servent de référence pour les tests :
+		1. implémentation de base
+		2. implémentation un peu plus performante
+		3. implémentation plus performante
+	- par défaut, plusieurs tests sont insérés dans l'engin (53)
+	- chaque test est évaluée par chacun des processeurs
+	- après l'insertion de vos classe dans l'engin, vos classes seront testées 
+	  avec chacun des tests
+    - un rapport de performance vous donnera votre évaluation (parties automatisées)
+
+L'attribution du pointage final sera faite en mode debug (pas en release).
+
+L'évaluation se fait selon 5 critères :
+	1. 30 % - Qualité du travail															[évaluation manuelle par l'enseignant]
+		- Considérations techniques évaluées
+			- orienté objet
+			- héritage
+			- polymorphisme
+			- C++
+			- documentation
+		- Rapport
+
+	2. 40 % - Succès de l'implémentation 1													[évaluation automatique]
+		- seulement l'implémentation 1 est considérée
+		- vous êtes évalué exclusivement sur l'atteinte des résultats attendus 
+		- chaque métrique a sa propre pondération proportionnel à sa difficulté :
+				- minimum					7.5 %
+				- maximum					7.5 %
+				- étendu					5.0 %
+				- médiane				   15.0 %
+				- mode				       15.0 %
+				- compte				    5.0 %
+				- somme					   10.0 %
+				- moyenne                  10.0 %
+				- variance				   15.0 %
+				- écart type			   10.0 %
+		- pour chaque test, vous avez un pointage selon la pondération donnée 
+		  pour chaque bonne réponse
+		- au final, vous aurez la moyenne de tous les tests
+
+	3. 25 % - Efficacité de l'implémentation 2												[évaluation automatique]
+		- seulement l'implémentation 2 est considérée
+		- pour cette partie, on tente d'évaluer que votre implémentation est 
+		  plus performante que la version de base donnée par l'enseignant
+		- on considère ces quatre critères :
+			- TOUTES les données statistiques sont bonnes
+			- le temps écoulé
+			- le nombre d'opération sur les 'real'
+			- le nombre d'opération sur les 'integer'
+		- l'attribution de la note se fait linéairement en comparant vos 
+		  résultats à ceux des processeurs de référence 1 et 2
+		- le résultat est limité entre 0% et 100%
+
+	4. 5 % - Performance de l'implémentation 2												[évaluation automatique]
+		- cette évaluation est la même que la précédente mais en considérant 
+		  les processeurs de référence 2 et 3
+
+	5. ~10% - Haute performance de l'implémentation 2										[évaluation automatique]
+		- jusqu'à 10 % en points boni
+		- considérant les critères de la solultion 4, un vous donne 2.5% de 
+		  plus pour chaque vous que vous doublerez la performance du 
+		  processeur 3
+		- le résultat est limité entre 0% et 100%
+
+
+ ____                              _   
+|  _ \ __ _ _ __  _ __   ___  _ __| |_ 
+| |_) / _` | '_ \| '_ \ / _ \| '__| __|
+|  _ < (_| | |_) | |_) | (_) | |  | |_ 
+|_| \_\__,_| .__/| .__/ \___/|_|   \__|
+           |_|   |_|                   
+
+Vous devez produire un mini rapport répondant à ces questions (fichier txt) :
+	1. nom																	
+	2. expliquer brièvement :									 4.0 %		
+		- ce qui fonctionne										     '		
+		- ce qui ne fonctionne que partiellement				     '		
+		- ce que vous n'avez pas eu le temps de faire			     '		
+	3. expliquez en détail votre algorithme 2 - surtout, ne		 5.0 %		
+		pas réécrire en français votre code - s'il y a lieu,	     '		
+		inclure vos références, expliquer votre intuition,		     '		
+		donner des détails sur le déroulement logique de 		     '		
+		l'algorithme, des mathématiques associées ou 			     '		
+		tout autre détails pertinents							     '		
+	4. Répondez à ces 3 questions :								 6.0 %		
+		a) Que veut dire le mot 'virtual' à la ligne 62 du		     '		
+			fichier data_statistics.h ?								 '		
+		b) Les fichiers real.h, integer.h et data.h ne possède	     '
+			qu'une toute petite déclaration (un alias de type). 	 '
+			Dans vos mots, expliquer pourquoi ceci est une bonne 	 '
+			pratique.							 '					 '
+		c) Considérant le critère de modularité, est-ce que la 		 '		
+			classe BlobExtractor répond bien à ce dernier?		     '		
+			Pourquoi? 												 '		
+	5. Tout commentaires sur ce projet est le bienvenu... merci!     '		
+
+
+
+
+ ____                _          
+|  _ \ ___ _ __ ___ (_)___  ___ 
+| |_) / _ \ '_ ` _ \| / __|/ _ \
+|  _ <  __/ | | | | | \__ \  __/
+|_| \_\___|_| |_| |_|_|___/\___|
+   
+Pour la remise, vous n'avez qu'à produire un fichier ZIP incluant vous 5 fichiers :
+	1. b52p2_NomPrenom_1.h
+	2. b52p2_NomPrenom_1.cpp
+	3. b52p2_NomPrenom_2.h
+	4. b52p2_NomPrenom_2.cpp
+	5. b52p2_NomPrenom_rapport.txt
+
+
+
+
+
+ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ 
+|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|
+ ____                        _                   _   _       __                 _   _                 
+|  _ \ __ _ _ __  _ __   ___| |  _ __ ___   __ _| |_| |__   /_/ _ __ ___   __ _| |_(_) __ _ _   _  ___ 
+| |_) / _` | '_ \| '_ \ / _ \ | | '_ ` _ \ / _` | __| '_ \ / _ \ '_ ` _ \ / _` | __| |/ _` | | | |/ _ \
+|  _ < (_| | |_) | |_) |  __/ | | | | | | | (_| | |_| | | |  __/ | | | | | (_| | |_| | (_| | |_| |  __/
+|_| \_\__,_| .__/| .__/ \___|_| |_| |_| |_|\__,_|\__|_| |_|\___|_| |_| |_|\__,_|\__|_|\__, |\__,_|\___|
+           |_|   |_|                                                                     |_|           
+ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ 
+|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|_____|
+                                                                                                                         
+                                                                                                                         
+																										
+           _       _                           
+ _ __ ___ (_)_ __ (_)_ __ ___  _   _ _ __ ___  
+| '_ ` _ \| | '_ \| | '_ ` _ \| | | | '_ ` _ \ 
+| | | | | | | | | | | | | | | | |_| | | | | | |
+|_| |_| |_|_|_| |_|_|_| |_| |_|\__,_|_| |_| |_|
+                                               
+Le minimum correspond à la plus petite valeur de l'ensemble.
+
+Pseudo code :
+┌─┬─────────────────────────────────────────────────┐
+│1│temp = data_set[0]                               │
+│2│FOREACH i FROM data_set                          │
+│3│    IF data_set[i] < temp THAN temp = data_set[i]│
+│4│                                                 │
+│5│minimum = temp                                   │
+└─┴─────────────────────────────────────────────────┘
+
+
+                      _                           
+ _ __ ___   __ ___  _(_)_ __ ___  _   _ _ __ ___  
+| '_ ` _ \ / _` \ \/ / | '_ ` _ \| | | | '_ ` _ \ 
+| | | | | | (_| |>  <| | | | | | | |_| | | | | | |
+|_| |_| |_|\__,_/_/\_\_|_| |_| |_|\__,_|_| |_| |_|
+                                                  
+Le maximum correspond à la plus grande valeur de l'ensemble.
+
+Pseudo code :
+┌─┬─────────────────────────────────────────────────┐
+│1│temp = data_set[0]                               │
+│2│FOREACH i FROM data_set                          │
+│3│    IF data_set[i] > temp THAN temp = data_set[i]│
+│4│                                                 │
+│5│maximum = temp                                   │
+└─┴─────────────────────────────────────────────────┘
+
+
+   __ _                 _       
+  /_/| |_ ___ _ __   __| |_   _ 
+ / _ \ __/ _ \ '_ \ / _` | | | |
+|  __/ ||  __/ | | | (_| | |_| |
+ \___|\__\___|_| |_|\__,_|\__,_|
+                                
+L'étendu (span) présente la plage des données de l'ensemble.
+
+Pseudo code :
+┌─┬─────────────────────────────────────────────────────────┐
+│1│temp_min = data_set[0]                                   │
+│2│FOREACH i FROM data_set                                  │
+│3│    IF data_set[i] < temp_min THAN temp_min = data_set[i]│
+│4│                                                         │
+│5│temp_max = data_set[0]                                   │
+│6│FOREACH i FROM data_set                                  │
+│7│    IF data_set[i] > temp_max THAN temp_max = data_set[i]│
+│8│                                                         │
+│9│span = temp_max - temp_min                               │
+└─┴─────────────────────────────────────────────────────────┘
+
+
+             __     _ _                  
+ _ __ ___   /_/  __| (_) __ _ _ __   ___ 
+| '_ ` _ \ / _ \/ _` | |/ _` | '_ \ / _ \
+| | | | | |  __/ (_| | | (_| | | | |  __/
+|_| |_| |_|\___|\__,_|_|\__,_|_| |_|\___|
+                                         
+La valeur médiane est la valeur se trouvant au centre de l'ensemble alors 
+que ce dernier est trié.
+
+Si l'ensemble est de taille impair, la médiane est la valeur au centre.
+Si l'ensemble est de taille pair, la médiane est la moyenne des deux valeurs 
+se trouvant adjacente au centre.
+
+Pseudo code :
+┌──┬──────────────────────────────────────────┐
+│1 │data_set_sorted = sort(data_set)          │
+│2 │                                          │
+│3 │center_index = sizeof(data_set) / 2       │
+│4 │                                          │
+│5 │IF (sizeof(median) IS even) THAN          │
+│6 │    v1 = data_set_sorted[center_index - 1]│
+│7 │    v2 = data_set_sorted[center_index]    │
+│8 │    median = average(v1, v2)              │
+│9 │ELSE                                      │
+│10│    median = data_set_sorted[center_index]│
+└──┴──────────────────────────────────────────┘
+
+Le trie est un algorithme fondamental de l'informatique. Voici un rappel 
+concernant l'un des nombreux algorithmes : le trie bulle.
+
+Pseudo code du trie bulle :
+┌─┬──────────────────────────────────────────┐
+│1│FOREACH i FROM length(data_set) - 1       │
+│2│    FOREACH j FROM length(data_set) - i   │
+│3│        IF (data_set[j] > data_set[j+1]) {│
+│4│            temp = data_set[j];           │
+│5│            data_set[j] = data_set[j+1];  │
+│6│            data_set[j+1] = temp;         │
+└─┴──────────────────────────────────────────┘
+
+
+                     _      
+ _ __ ___   ___   __| | ___ 
+| '_ ` _ \ / _ \ / _` |/ _ \
+| | | | | | (_) | (_| |  __/
+|_| |_| |_|\___/ \__,_|\___|
+                            
+Le mode représente la données la plus fréquente de l'ensemble.
+
+ATTENTION, puisque les données sont des nombres à point flottant généré 
+aléatoirement, on vous demande de calculer le mode des entiers correspondant 
+(arrondi).
+
+Pseudo code :
+┌──┬──────────────────────────────────────────────────────┐
+│1 │mode_count = list_of_2_integers                       │
+│2 │                                                      │
+│3 │FOREACH i FROM data_set                               │
+│4 │    processed = FALSE                                 │
+│5 │    FOREACH j FROM mode_count                         │
+│6 │        IF mode_count[j][0] == round(data_set[i]) THAN│
+│7 │            mode_count[j][1]++                        │
+│8 │            processed = FALSE                         │
+│9 │                                                      │
+│10│    IF processed == FALSE THAN                        │
+│11│        mode_count.add(<round(data_set[i]), 1>)       │
+│12│                                                      │
+│13│                                                      │
+│14│temp_value = mode_count[0][0]                         │
+│15│temp_count = mode_count[0][1]                         │
+│16│                                                      │
+│17│FOREACH k FROM made_count                             │
+│18│    IF made_count[k][1] > temp_count THAN             │
+│19│        temp_value = mode_count[k][0]                 │
+│20│        temp_count = mode_count[k][1]                 │
+│21│                                                      │
+│22│mode = temp_value                                     │
+└──┴──────────────────────────────────────────────────────┘
+
+
+
+                           _       
+  ___ ___  _ __ ___  _ __ | |_ ___ 
+ / __/ _ \| '_ ` _ \| '_ \| __/ _ \
+| (_| (_) | | | | | | |_) | ||  __/
+ \___\___/|_| |_| |_| .__/ \__\___|
+                    |_|            
+
+Le compte représente le nombre d'élément dans l'ensemble.
+
+        n - 1  
+         ===   
+         \     
+count =  /    1
+         ===   
+        i = 0  
+
+Pseudo code :
+┌─┬───────────────────────┐
+│1│temp = 0               │
+│2│                       │
+│3│FOREACH i FROM data_set│
+│4│    temp = temp + 1    │
+│5│                       │
+│6│count = temp           │
+└─┴───────────────────────┘
+
+
+                                     
+ ___  ___  _ __ ___  _ __ ___   ___ 
+/ __|/ _ \| '_ ` _ \| '_ ` _ \ / _ \
+\__ \ (_) | | | | | | | | | | |  __/
+|___/\___/|_| |_| |_|_| |_| |_|\___|
+                                    
+La somme de toutes les données de l'ensemble.
+
+      n - 1     
+       ===      
+       \        
+sum =  /    x(i)
+       ===      
+      i = 0     
+
+Pseudo code :
+┌─┬─────────────────────────────┐
+│1│temp = 0                     │
+│2│                             │
+│3│FOREACH i FROM data_set      │
+│4│    temp = temp + data_set[i]│
+│5│                             │
+│6│sum = temp                   │
+└─┴─────────────────────────────┘
+
+
+
+                                              
+ _ __ ___   ___  _   _  ___ _ __  _ __   ___ 
+| '_ ` _ \ / _ \| | | |/ _ \ '_ \| '_ \ / _ \
+| | | | | | (_) | |_| |  __/ | | | | | |  __/
+|_| |_| |_|\___/ \__, |\___|_| |_|_| |_|\___|
+                 |___/                       
+
+La moyenne représente la donnée centrale de l'ensemble.
+
+          n - 1     
+           ===      
+           \        
+           /    x(i)
+           ===      
+          i = 0     
+average = ----------
+            n - 1   
+             ===    
+             \      
+             /    1 
+             ===    
+            i = 0   
+
+Pseudo code :
+┌──┬─────────────────────────────────────┐
+│1 │temp_count = 0                       │
+│2 │temp_sum = 0                         │
+│3 │                                     │
+│4 │FOREACH i FROM data_set              │
+│5 │    temp_count = temp_count + 1      │
+│6 │                                     │
+│7 │FOREACH i FROM data_set              │
+│8 │    temp_sum = temp_sum + data_set[i]│
+│9 │                                     │
+│10│average = temp_sum / temp_count      │
+└──┴─────────────────────────────────────┘
+
+
+
+                 _                      
+__   ____ _ _ __(_) __ _ _ __   ___ ___ 
+\ \ / / _` | '__| |/ _` | '_ \ / __/ _ \
+ \ V / (_| | |  | | (_| | | | | (_|  __/
+  \_/ \__,_|_|  |_|\__,_|_| |_|\___\___|
+                                        
+La variance représente l'écart à la moyenne au carré.
+
+             n - 1                                                 
+           =========                                               
+           \                            2                          
+            \        /       n - 1     \                           
+             \       |        ===      |                           
+              \      |        \        |                           
+               \     |        /    x(i)|                           
+                \    |        ===      |                           
+                 \   |       i = 0     |                           
+                 /   |x(i) - ----------|                           
+                /    |         n - 1   |                           
+               /     |          ===    |                           
+              /      |          \      |    n - 1                  
+             /       |          /    1 |     ===                   
+            /        |          ===    |     \                    2
+           /         \         i = 0   /     /    (x(i) - average) 
+           =========                         ===                   
+             i = 0                          i = 0                  
+variance = ------------------------------ = -----------------------
+                       n - 1                         count         
+                        ===                                        
+                        \                                          
+                        /    1                                     
+                        ===                                        
+                       i = 0                                       
+
+Pseudo code :
+┌──┬───────────────────────────────────────────────────────┐
+│1 │temp_count = 0                                         │
+│2 │temp_sum = 0                                           │
+│3 │temp_var = 0                                           │
+│4 │                                                       │
+│5 │FOREACH i FROM data_set                                │
+│6 │    temp_count = temp_count + 1                        │
+│7 │                                                       │
+│8 │FOREACH i FROM data_set                                │
+│9 │    temp_sum = temp_sum + data_set[i]                  │
+│10│                                                       │
+│11│average = temp_sum / temp_count                        │
+│12│                                                       │
+│13│FOREACH i FROM data_set                                │
+│14│    temp_var = temp_var + square(data_set[i] - average)│
+│15│                                                       │
+│16│variance = temp_var / temp_count                       │
+└──┴───────────────────────────────────────────────────────┘
+
+
+   __                _     _                    
+  /_/  ___ __ _ _ __| |_  | |_ _   _ _ __   ___ 
+ / _ \/ __/ _` | '__| __| | __| | | | '_ \ / _ \
+|  __/ (_| (_| | |  | |_  | |_| |_| | |_) |  __/
+ \___|\___\__,_|_|   \__|  \__|\__, | .__/ \___|
+                               |___/|_|         
+
+La variance représente l'écart à la moyenne.
+
+                                               ______________________________                                   
+                                              /  n - 1                                                          
+                                             / =========                                                        
+                                            /  \                            2                                   
+                                           /    \        /       n - 1     \                                    
+                                          /      \       |        ===      |                                    
+                                         /        \      |        \        |                                    
+                                        /          \     |        /    x(i)|                                    
+                                       /            \    |        ===      |                                    
+                                      /              \   |       i = 0     |                                    
+                                     /               /   |x(i) - ----------|                                    
+                                    /               /    |         n - 1   |                                    
+                                   /               /     |          ===    |             _______________________
+                                  /               /      |          \      |            /n - 1                  
+                                 /               /       |          /    1 |           /  ===                   
+                                /               /        |          ===    |          /   \                    2
+                               /               /         \         i = 0   /         /    /    (x(i) - average) 
+                              /                =========                            /     ===                   
+                             /                   i = 0                             /     i = 0                  
+standard_deviation =        /                  ------------------------------ =   /      -----------------------
+                           /                               n - 1                \/                count         
+                          /                                 ===                                                 
+                         /                                  \                                                   
+                        /                                   /    1                                              
+                       /                                    ===                                                 
+                     \/                                    i = 0                                                
+
+
+Pseudo code :
+┌──┬───────────────────────────────────────────────────────┐
+│1 │temp_count = 0                                         │
+│2 │temp_sum = 0                                           │
+│3 │temp_var = 0                                           │
+│4 │                                                       │
+│5 │FOREACH i FROM data_set                                │
+│6 │    temp_count = temp_count + 1                        │
+│7 │                                                       │
+│8 │FOREACH i FROM data_set                                │
+│9 │    temp_sum = temp_sum + data_set[i]                  │
+│10│                                                       │
+│11│average = temp_sum / temp_count                        │
+│12│                                                       │
+│13│FOREACH i FROM data_set                                │
+│14│    temp_var = temp_var + square(data_set[i] - average)│
+│15│                                                       │
+│16│standard_deviation = sqrt(temp_var / temp_count)       │
+└──┴───────────────────────────────────────────────────────┘
+
+
+

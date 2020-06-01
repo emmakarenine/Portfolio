@@ -1,0 +1,4 @@
+﻿  b52p2_PhouttamaMakraphone_1.cpp
+y:\b52_projets\tp2-statistics\tp2-statistics\b52p2_phouttamamakraphone_1.cpp(156): warning C4018: '<' : incompatibilité signed/unsigned
+y:\b52_projets\tp2-statistics\tp2-statistics\b52p2_phouttamamakraphone_1.cpp(172): warning C4018: '<' : incompatibilité signed/unsigned
+y:\b52_projets\tp2-statistics\tp2-statistics\b52p2_phouttamamakraphone_1.cpp(220): error C2397: la conversion de 'unsigned int' en 'int' requiert une conversion restrictive
