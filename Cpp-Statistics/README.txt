@@ -1,6 +1,6 @@
 Created at semester 5 / 6 ( advanced C++ programming in the Technique).
 
-Run TP2-Statistics\Release
+Run Cpp-Statistics\Release
 
 This programm is run automatically using a specific software developped by my CEGEP teacher. 
 
