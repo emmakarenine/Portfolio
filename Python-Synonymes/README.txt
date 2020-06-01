@@ -11,7 +11,7 @@ main.py 5 utf-8 GerminalUTF8.txt LesTroisMousquetairesUTF8.txt [text3] [text4] [
 
 
 
-###Install numpg
+###Install numpy
 #########################################
 
 python -mpip install numpy
