@@ -1,4 +1,6 @@
-Basic game developped in Programmation 2 course
+Basic game developped at semester 2 / 6.
+"Programmation 2" course
+
 Run the executable to play :
 Cpp_Diamonds\Diamonds_game\
 
