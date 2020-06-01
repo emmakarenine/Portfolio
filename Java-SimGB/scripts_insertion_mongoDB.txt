@@ -1,0 +1,4 @@
+db.ile.insert( {"o2":21, "co2":0.04, "profondeur_moy":0, "temp_moy":27, "couleur_princ":"jaune", "heures_ensol":12} )
+
+
+db.ocean.insert( {"o2":3, "co2":0.01, "temp_moy":24, "profondeur_moy":0, "couleur_princ":"bleu", "ph":8.1} )
