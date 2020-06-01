@@ -15,3 +15,7 @@ MVC
 Singleton
 
 MongoDB jar not (yet) needed
+
+===
+
+I am still developping this project!
