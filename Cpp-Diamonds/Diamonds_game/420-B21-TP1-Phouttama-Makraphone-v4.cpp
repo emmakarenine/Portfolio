@@ -3,7 +3,7 @@
 #include <string>
 #include <Windows.h>
 #include <iomanip>
-#include "Y:/console(v1.9).h"
+#include "console(v1.9).h"
 #include <time.h>
 using namespace std;
 
@@ -15,7 +15,7 @@ const int NB_COL_DAMIER= 12, NB_LIG_DAMIER= 8; // Nombre de colonnes et de ligne
 // DEFINITIONS DES TYPES GLOBAUX
 // *****************************
 
-enum Commandes // Code ascii des touches (flËches) de dÈplacement. 
+enum Commandes // Code ascii des touches (fl√®ches) de d√©placement. 
 //Vous devez utiliser ces valeurs symboliques
 {
 	KEY_DOWN		= 80,
@@ -28,36 +28,36 @@ enum Commandes // Code ascii des touches (flËches) de dÈplacement.
 	KEY_DOWN_RIGHT	= 81
 };
 
-struct Position // Pour mÈmoriser une position du curseur sur le damier du jeu
+struct Position // Pour m√©moriser une position du curseur sur le damier du jeu
 {
 	int lig; // ligne du damier int x
 	int col; // colonne du damier int y
 };
-Position caseJeu; // tableau de 2 coordonnÈes
+Position caseJeu; // tableau de 2 coordonn√©es
 
-struct DÈplacement // Pour mÈmoriser un dÈplacement du curseur sur le damier du jeu
+struct D√©placement // Pour m√©moriser un d√©placement du curseur sur le damier du jeu
 {
-	Position dep; // case de dÈpart du curseur
-	Position arr; // case d'arrivÈe du curseur
+	Position dep; // case de d√©part du curseur
+	Position arr; // case d'arriv√©e du curseur
 };
 
-enum …tat { BL, DC, DV, RO, MU }; // …tats possibles de chacune des cases du damier
+enum √âtat { BL, DC, DV, RO, MU }; // √âtats possibles de chacune des cases du damier
 /* 
-	…tats possibles			ReprÈsentations graphiques
+	√âtats possibles			Repr√©sentations graphiques
 
 	BL = BLEUE				case bleue
-	DC = DOLLARS CACH…		case bleue
+	DC = DOLLARS CACH√â		case bleue
 	DV = DOLLARS VISIBLE	case $$$$ vert
 	RO = ROSE				case rose
 	MU = MUR				case noire
 */
 
-struct Jeu // Pour mÈmoriser les diffÈrents aspects du jeu
+struct Jeu // Pour m√©moriser les diff√©rents aspects du jeu
 {
-	int ptsAccum = 0; // Points accumulÈs durant la partie. 0 au dÈpart.
+	int ptsAccum = 0; // Points accumul√©s durant la partie. 0 au d√©part.
 
-	// Damier du jeu avec les Ètats initiaux de chacune des cases
-	…tat damier [NB_LIG_DAMIER][NB_COL_DAMIER] =
+	// Damier du jeu avec les √©tats initiaux de chacune des cases
+	√âtat damier [NB_LIG_DAMIER][NB_COL_DAMIER] =
 	{
 		{ BL , BL , BL , BL , BL , BL , BL , BL , MU , BL , BL , DC },
 		{ BL , BL , MU , MU , BL , BL , BL , BL , BL , MU , BL , MU },
@@ -69,12 +69,12 @@ struct Jeu // Pour mÈmoriser les diffÈrents aspects du jeu
 		{ DC , DC , BL , BL , BL , BL , BL , BL , BL , BL , BL , BL }
 	};
 
-	DÈplacement depl; // Pour conserver le dernier dÈplacement du curseur dans le damier
+	D√©placement depl; // Pour conserver le dernier d√©placement du curseur dans le damier
 };
 
 // VARIABLES GLOBALES
 // ******************
-Jeu jeu; // CrÈation du jeu en mÈmoire
+Jeu jeu; // Cr√©ation du jeu en m√©moire
 
 void afficherPierre(string p, cvmColor c, int x, int y)
 {
@@ -105,7 +105,7 @@ void main(void)
 	const Position CASE_DEP = { 0, 0 };
 	const Position XY_DEP = { 2, 10 };
 		
-	DÈplacement caseJouee, pointXY;
+	D√©placement caseJouee, pointXY;
 	Commandes commandes; 
 	
 	bool valide, victoire, gameOver;
@@ -160,7 +160,7 @@ void main(void)
 
 		valide = false;
 			
-		// AdaptÈ du fichier ToucheClavier.cpp
+		// Adapt√© du fichier ToucheClavier.cpp
 		char1 = _getch();
 
 		if (char1 == 0 || char1 == 224)
@@ -256,7 +256,7 @@ void main(void)
 				valide = true;
 			}	break;
 		}
-		// AFFICHER LE DAMIER SELON LE D…PART
+		// AFFICHER LE DAMIER SELON LE D√âPART
 		if (valide)
 		{
 			nbDepl++;
@@ -276,7 +276,7 @@ void main(void)
 			case MU:
 				afficherPierre(mu, NOIR, pointXY.dep.col, pointXY.dep.lig);
 
-				// VERIFIER SI BLOQU…
+				// VERIFIER SI BLOQU√â
 														// Cas ligne du haut ou du bas
 				if ((caseJouee.arr.lig == 0 | caseJouee.arr.lig == NB_LIG_DAMIER - 1)
 					&& jeu.damier[caseJouee.arr.lig][caseJouee.arr.col - 1] == MU
@@ -360,19 +360,19 @@ void main(void)
 				}
 			}
 
-			if (!gameOver)    // MODIFIER …TATS DES CASES DU DAMIER
+			if (!gameOver)    // MODIFIER √âTATS DES CASES DU DAMIER
 			{
-				// Cases de dÈpart
+				// Cases de d√©part
 				switch (jeu.damier[caseJouee.dep.lig][caseJouee.dep.col])
 				{
 				case BL:
-					if (nbDepl > 2)  // excluant le 1er dÈplacement
+					if (nbDepl > 2)  // excluant le 1er d√©placement
 						jeu.damier[caseJouee.dep.lig][caseJouee.dep.col] = RO; break;
-				case DC:          //si Ètait $$$$
+				case DC:          //si √©tait $$$$
 					jeu.damier[caseJouee.dep.lig][caseJouee.dep.col] = DV; break;
 				}
 
-				// Cases d'arrivÈe
+				// Cases d'arriv√©e
 				switch (jeu.damier[caseJouee.arr.lig][caseJouee.arr.col])
 				{
 				case DV:
@@ -396,7 +396,7 @@ void main(void)
 				case RO:
 					jeu.damier[caseJouee.arr.lig][caseJouee.arr.col] = MU; break;
 				}
-				caseJouee.dep = caseJouee.arr;		// RÈinitialisation des cases dÈpart/arrivÈe
+				caseJouee.dep = caseJouee.arr;		// R√©initialisation des cases d√©part/arriv√©e
 				pointXY.dep = pointXY.arr;
 			}
 			else
