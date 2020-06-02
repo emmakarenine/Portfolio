@@ -1,1 +1,0 @@
-SEE OTHER FOLDER Cpp-Diamonds
